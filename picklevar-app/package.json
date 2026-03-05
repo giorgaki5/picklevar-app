@@ -1,0 +1,33 @@
+{
+  "name": "picklevar",
+  "version": "1.0.0",
+  "description": "PickleVAR - Pickleball Line Call Review System",
+  "main": "src/index.html",
+  "scripts": {
+    "build": "echo 'No build step needed - static HTML'",
+    "cap:init": "npx cap init PickleVAR com.picklevar.app --web-dir=src",
+    "cap:add:android": "npx cap add android",
+    "cap:add:ios": "npx cap add ios",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:open:ios": "npx cap open ios"
+  },
+  "keywords": [
+    "pickleball",
+    "line-review",
+    "sports",
+    "var"
+  ],
+  "author": "Your Name",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/camera": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/ios": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.0.0"
+  }
+}

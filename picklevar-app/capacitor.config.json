@@ -1,0 +1,20 @@
+{
+  "appId": "com.picklevar.app",
+  "appName": "PickleVAR",
+  "webDir": "src",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "Camera": {
+      "permissionText": "PickleVAR needs camera access to record and review line calls"
+    }
+  },
+  "android": {
+    "backgroundColor": "#1a1a2e"
+  },
+  "ios": {
+    "backgroundColor": "#1a1a2e",
+    "contentInset": "always"
+  }
+}
