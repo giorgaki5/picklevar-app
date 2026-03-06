@@ -53,7 +53,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background:
+            background: 
                 /* Court lines - brighter */
                 linear-gradient(90deg, transparent 48%, rgba(255,255,255,0.35) 49%, rgba(255,255,255,0.35) 51%, transparent 52%),
                 linear-gradient(0deg, transparent 48%, rgba(255,255,255,0.35) 49%, rgba(255,255,255,0.35) 51%, transparent 52%),
@@ -328,6 +328,43 @@
             font-size: 14px;
             color: #ccc;
             line-height: 1.5;
+        }
+
+        /* FPS Selector */
+        .fps-selector {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .fps-option {
+            flex: 1;
+            padding: 12px 8px;
+            border: 2px solid #444;
+            border-radius: 10px;
+            background: transparent;
+            color: #888;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .fps-option:active {
+            transform: scale(0.97);
+        }
+
+        .fps-option.active {
+            border-color: #00e5a0;
+            background: rgba(0, 229, 160, 0.15);
+            color: #00e5a0;
+        }
+
+        .fps-description {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+            margin-top: 8px;
         }
 
         /* ========== HEADER ========== */
@@ -950,668 +987,896 @@
     </style>
 </head>
 <body>
-<!-- Home Screen -->
-<div class="home-screen" id="homeScreen">
-    <div class="home-header">
-        <div class="home-logo">
-            <svg width="120" height="130" viewBox="0 0 140 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Paddle at 30 degree angle -->
-                <g transform="rotate(-30, 70, 75)">
-                    <!-- Paddle face - moderate rounded top, more rounded bottom -->
-                    <path d="M30 40
-                                 Q30 20 45 20
+    <!-- Home Screen -->
+    <div class="home-screen" id="homeScreen">
+        <div class="home-header">
+            <div class="home-logo">
+                <svg width="120" height="130" viewBox="0 0 140 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Paddle at 30 degree angle -->
+                    <g transform="rotate(-30, 70, 75)">
+                        <!-- Paddle face - moderate rounded top, more rounded bottom -->
+                        <path d="M30 40 
+                                 Q30 20 45 20 
                                  L85 20
                                  Q100 20 100 40
-                                 L100 75
-                                 Q100 110 65 110
-                                 Q30 110 30 75 Z"
-                          fill="url(#paddleFaceGrad)" stroke="#1a1a1a" stroke-width="4" stroke-linejoin="round"/>
-
-                    <!-- Camera lens circle - same size as before -->
-                    <circle cx="65" cy="62" r="26" fill="#1a1a1a"/>
-                    <circle cx="65" cy="62" r="22" fill="url(#lensGrad)" stroke="#333" stroke-width="2"/>
-
-                    <!-- Lens inner rings -->
-                    <circle cx="65" cy="62" r="16" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-                    <circle cx="65" cy="62" r="10" fill="#1a1a1a"/>
-                    <circle cx="65" cy="62" r="8" fill="url(#lensInnerGrad)"/>
-
-                    <!-- Lens reflection/highlight -->
-                    <ellipse cx="58" cy="55" rx="6" ry="4" fill="rgba(255,255,255,0.4)"/>
-
-                    <!-- Small red recording dot - equidistant from lens and edge -->
-                    <circle cx="82" cy="35" r="5" fill="#ff3b3b">
-                        <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
-                    </circle>
-
-                    <!-- Handle - lighter color -->
-                    <rect x="55" y="110" width="20" height="38" rx="4" fill="#e8e8e8" stroke="#ccc" stroke-width="1"/>
-                    <!-- Handle grip texture -->
-                    <line x1="55" y1="118" x2="75" y2="118" stroke="#bbb" stroke-width="2"/>
-                    <line x1="55" y1="124" x2="75" y2="124" stroke="#bbb" stroke-width="2"/>
-                    <line x1="55" y1="130" x2="75" y2="130" stroke="#bbb" stroke-width="2"/>
-                    <line x1="55" y1="136" x2="75" y2="136" stroke="#bbb" stroke-width="2"/>
-                    <line x1="55" y1="142" x2="75" y2="142" stroke="#bbb" stroke-width="2"/>
-                </g>
-
-                <defs>
-                    <linearGradient id="paddleFaceGrad" x1="30" y1="20" x2="100" y2="110">
-                        <stop offset="0%" stop-color="#00e5a0"/>
-                        <stop offset="100%" stop-color="#00b880"/>
-                    </linearGradient>
-                    <radialGradient id="lensGrad" cx="40%" cy="40%" r="60%">
-                        <stop offset="0%" stop-color="#4a5568"/>
-                        <stop offset="100%" stop-color="#1a202c"/>
-                    </radialGradient>
-                    <radialGradient id="lensInnerGrad" cx="30%" cy="30%" r="70%">
-                        <stop offset="0%" stop-color="#2d3748"/>
-                        <stop offset="50%" stop-color="#1a202c"/>
-                        <stop offset="100%" stop-color="#0d1117"/>
-                    </radialGradient>
-                </defs>
-            </svg>
+                                 L100 75 
+                                 Q100 110 65 110 
+                                 Q30 110 30 75 Z" 
+                              fill="url(#paddleFaceGrad)" stroke="#1a1a1a" stroke-width="4" stroke-linejoin="round"/>
+                        
+                        <!-- Camera lens circle - same size as before -->
+                        <circle cx="65" cy="62" r="26" fill="#1a1a1a"/>
+                        <circle cx="65" cy="62" r="22" fill="url(#lensGrad)" stroke="#333" stroke-width="2"/>
+                        
+                        <!-- Lens inner rings -->
+                        <circle cx="65" cy="62" r="16" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                        <circle cx="65" cy="62" r="10" fill="#1a1a1a"/>
+                        <circle cx="65" cy="62" r="8" fill="url(#lensInnerGrad)"/>
+                        
+                        <!-- Lens reflection/highlight -->
+                        <ellipse cx="58" cy="55" rx="6" ry="4" fill="rgba(255,255,255,0.4)"/>
+                        
+                        <!-- Small red recording dot - equidistant from lens and edge -->
+                        <circle cx="82" cy="35" r="5" fill="#ff3b3b">
+                            <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+                        </circle>
+                        
+                        <!-- Handle - lighter color -->
+                        <rect x="55" y="110" width="20" height="38" rx="4" fill="#e8e8e8" stroke="#ccc" stroke-width="1"/>
+                        <!-- Handle grip texture -->
+                        <line x1="55" y1="118" x2="75" y2="118" stroke="#bbb" stroke-width="2"/>
+                        <line x1="55" y1="124" x2="75" y2="124" stroke="#bbb" stroke-width="2"/>
+                        <line x1="55" y1="130" x2="75" y2="130" stroke="#bbb" stroke-width="2"/>
+                        <line x1="55" y1="136" x2="75" y2="136" stroke="#bbb" stroke-width="2"/>
+                        <line x1="55" y1="142" x2="75" y2="142" stroke="#bbb" stroke-width="2"/>
+                    </g>
+                    
+                    <defs>
+                        <linearGradient id="paddleFaceGrad" x1="30" y1="20" x2="100" y2="110">
+                            <stop offset="0%" stop-color="#00e5a0"/>
+                            <stop offset="100%" stop-color="#00b880"/>
+                        </linearGradient>
+                        <radialGradient id="lensGrad" cx="40%" cy="40%" r="60%">
+                            <stop offset="0%" stop-color="#4a5568"/>
+                            <stop offset="100%" stop-color="#1a202c"/>
+                        </radialGradient>
+                        <radialGradient id="lensInnerGrad" cx="30%" cy="30%" r="70%">
+                            <stop offset="0%" stop-color="#2d3748"/>
+                            <stop offset="50%" stop-color="#1a202c"/>
+                            <stop offset="100%" stop-color="#0d1117"/>
+                        </radialGradient>
+                    </defs>
+                </svg>
+            </div>
+            <h1 class="home-title">PickleVAR</h1>
+            <p class="home-tagline">Line Call Review System</p>
         </div>
-        <h1 class="home-title">PickleVAR</h1>
-        <p class="home-tagline">Line Call Review System</p>
-    </div>
 
-    <div class="home-content">
-        <button class="home-btn" id="startLiveBtn">
-            <div class="home-btn-icon live">📹</div>
-            <div class="home-btn-text">
-                <div class="home-btn-title">Start Line Monitor</div>
-                <div class="home-btn-desc">Begin recording and review line calls</div>
-            </div>
-            <div class="home-btn-arrow">›</div>
-        </button>
-
-        <button class="home-btn" id="helpBtn">
-            <div class="home-btn-icon help">❓</div>
-            <div class="home-btn-text">
-                <div class="home-btn-title">How to Use</div>
-                <div class="home-btn-desc">Quick guide to get started</div>
-            </div>
-            <div class="home-btn-arrow">›</div>
-        </button>
-
-        <button class="home-btn" id="settingsBtn">
-            <div class="home-btn-icon settings">⚙️</div>
-            <div class="home-btn-text">
-                <div class="home-btn-title">Settings</div>
-                <div class="home-btn-desc">Configure camera and preferences</div>
-            </div>
-            <div class="home-btn-arrow">›</div>
-        </button>
-    </div>
-
-    <div class="home-footer">
-        <p class="home-version">Version 1.0.0</p>
-    </div>
-</div>
-
-<!-- Help Modal -->
-<div class="modal-overlay hidden" id="helpModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">How to Use</h2>
-            <button class="modal-close" id="closeHelpBtn">✕</button>
-        </div>
-        <div class="modal-body">
-            <div class="help-section">
-                <h3>Setup</h3>
-                <div class="help-step">
-                    <div class="help-step-num">1</div>
-                    <div class="help-step-text">Position your phone at floor level, pointed at the line you want to monitor.</div>
+        <div class="home-content">
+            <button class="home-btn" id="startLiveBtn">
+                <div class="home-btn-icon live">📹</div>
+                <div class="home-btn-text">
+                    <div class="home-btn-title">Start Line Monitor</div>
+                    <div class="home-btn-desc">Begin recording and review line calls</div>
                 </div>
-                <div class="help-step">
-                    <div class="help-step-num">2</div>
-                    <div class="help-step-text">Use the Crop feature to focus on just the line area for longer recording buffer.</div>
+                <div class="home-btn-arrow">›</div>
+            </button>
+
+            <button class="home-btn" id="helpBtn">
+                <div class="home-btn-icon help">❓</div>
+                <div class="home-btn-text">
+                    <div class="home-btn-title">How to Use</div>
+                    <div class="home-btn-desc">Quick guide to get started</div>
                 </div>
-            </div>
+                <div class="home-btn-arrow">›</div>
+            </button>
 
-            <div class="help-section">
-                <h3>During Play</h3>
-                <p>The app continuously records. When there's a disputed call, tap "Review Last Ball" to instantly rewind.</p>
-            </div>
-
-            <div class="help-section">
-                <h3>Review Mode</h3>
-                <div class="help-step">
-                    <div class="help-step-num">1</div>
-                    <div class="help-step-text">Use the scrubber or ±15s buttons to find the moment.</div>
+            <button class="home-btn" id="settingsBtn">
+                <div class="home-btn-icon settings">⚙️</div>
+                <div class="home-btn-text">
+                    <div class="home-btn-title">Settings</div>
+                    <div class="home-btn-desc">Configure camera and preferences</div>
                 </div>
-                <div class="help-step">
-                    <div class="help-step-num">2</div>
-                    <div class="help-step-text">Use Frame buttons to step through frame-by-frame.</div>
-                </div>
-                <div class="help-step">
-                    <div class="help-step-num">3</div>
-                    <div class="help-step-text">Tap "Set Loop" to replay the moment continuously.</div>
-                </div>
-                <div class="help-step">
-                    <div class="help-step-num">4</div>
-                    <div class="help-step-text">Adjust playback speed (0.1× to 1×) for slow motion.</div>
-                </div>
-            </div>
-
-            <div class="help-section">
-                <h3>Tips</h3>
-                <p>• Use a small tripod or phone holder for stability<br>
-                    • Smaller crop region = longer buffer time<br>
-                    • 0.1× speed is best for close calls</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Settings Modal -->
-<div class="modal-overlay hidden" id="settingsModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 class="modal-title">Settings</h2>
-            <button class="modal-close" id="closeSettingsBtn">✕</button>
-        </div>
-        <div class="modal-body">
-            <div class="help-section">
-                <h3>Camera</h3>
-                <p>Camera selection is available on the live monitoring screen.</p>
-            </div>
-
-            <div class="help-section">
-                <h3>Recording</h3>
-                <p>• Frame Rate: 24 FPS<br>
-                    • Buffer: Up to 2 minutes (with crop)<br>
-                    • Resolution: Auto-optimized</p>
-            </div>
-
-            <div class="help-section">
-                <h3>Coming Soon</h3>
-                <p>• Adjustable FPS<br>
-                    • Video export<br>
-                    • Dual camera mode</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Main App Container (hidden until Start is pressed) -->
-<div class="app-container hidden" id="appContainer">
-    <header class="header">
-        <div class="header-left">
-            <button class="back-to-home-btn" id="backToHomeBtn">‹</button>
-            <h1>PickleVAR</h1>
-        </div>
-        <div class="header-right">
-            <div class="recording-indicator" id="recordingIndicator">Ready</div>
-            <button class="fullscreen-btn" id="fullscreenBtn">⛶</button>
-        </div>
-    </header>
-
-    <div class="video-container" id="videoContainer">
-        <video id="liveVideo" autoplay playsinline muted></video>
-        <canvas id="reviewCanvas"></canvas>
-
-        <!-- Live crop indicator (shown during recording when crop is enabled) -->
-        <div class="live-crop-overlay" id="liveCropOverlay">
-            <div class="live-crop-region" id="liveCropRegion"></div>
-        </div>
-
-        <!-- Crop overlay -->
-        <div class="crop-overlay" id="cropOverlay">
-            <div class="crop-region" id="cropRegion">
-                <div class="crop-handle top-left" data-handle="tl"></div>
-                <div class="crop-handle top-right" data-handle="tr"></div>
-                <div class="crop-handle bottom-left" data-handle="bl"></div>
-                <div class="crop-handle bottom-right" data-handle="br"></div>
-                <div class="crop-label" id="cropLabel">Drag to position</div>
-            </div>
-            <div class="crop-instructions">
-                Position the green box over the line you want to monitor.<br>
-                Drag corners to resize, drag center to move.
-            </div>
-        </div>
-
-        <div class="overlay-info">
-            <div class="info-badge recording" id="modeBadge">● LIVE</div>
-        </div>
-
-        <div class="buffer-badge" id="bufferBadge">
-            Buffer: <span id="bufferCount">0</span>s
-        </div>
-
-        <div class="time-badge" id="timeBadge">00:00.0</div>
-
-        <button class="exit-fullscreen-btn" id="exitFullscreenBtn">✕ Exit</button>
-
-        <!-- Review controls overlay (shown in both regular and fullscreen review mode) -->
-        <div class="review-overlay-controls" id="reviewOverlayControls">
-            <div class="review-overlay-scrubber">
-                <div class="loop-indicator" id="loopIndicator"></div>
-                <input type="range" class="review-scrubber" id="scrubberInput" min="0" max="100" value="0">
-                <div class="review-time-row">
-                    <span id="currentTime">00:00.0</span>
-                    <span id="totalTime">00:00.0</span>
-                </div>
-            </div>
-            <div class="review-overlay-row">
-                <button class="review-btn-overlay" id="rewindBtn">⏪ -15s</button>
-                <button class="review-btn-overlay play" id="playBtn">▶️</button>
-                <button class="review-btn-overlay" id="forwardBtn">+15s ⏩</button>
-            </div>
-            <div class="review-overlay-row">
-                <button class="review-btn-overlay frame" id="framePrev">◀ Frame</button>
-                <button class="review-btn-overlay loop" id="loopBtn">🔄 Set Loop</button>
-                <button class="review-btn-overlay frame" id="frameNext">Frame ▶</button>
-            </div>
-            <div class="review-overlay-row speed">
-                <button class="review-speed-btn" data-speed="0.1">0.1×</button>
-                <button class="review-speed-btn" data-speed="0.25">0.25×</button>
-                <button class="review-speed-btn" data-speed="0.5">0.5×</button>
-                <button class="review-speed-btn active" data-speed="1">1×</button>
-            </div>
-        </div>
-
-        <div class="status-overlay" id="statusOverlay">
-            <div class="spinner"></div>
-            <div class="status-text" id="statusText">Initializing camera...</div>
-        </div>
-    </div>
-
-    <div class="controls">
-        <div class="mode-label live" id="modeLabel">● RECORDING</div>
-
-        <div class="camera-row">
-            <select class="camera-select" id="cameraSelect">
-                <option value="">Loading cameras...</option>
-            </select>
-            <button class="crop-toggle-btn" id="cropToggleBtn">✂ Crop</button>
-        </div>
-
-        <div class="live-controls" id="liveControls">
-            <button class="primary-btn review-btn" id="reviewBtn">
-                ⏪ Review Last Ball
+                <div class="home-btn-arrow">›</div>
             </button>
         </div>
 
-        <div class="crop-controls" id="cropControls">
-            <button class="primary-btn confirm-crop-btn" id="confirmCropBtn">
-                ✓ Apply Crop Region
-            </button>
-        </div>
-
-        <div class="review-controls" id="reviewControls">
-            <button class="primary-btn back-btn" id="backBtn">
-                📹 Back to Live
-            </button>
+        <div class="home-footer">
+            <p class="home-version">Version 1.0.0</p>
         </div>
     </div>
-</div>
 
-<script>
-    // ============================================
-    // CONFIG & STATE
-    // ============================================
+    <!-- Help Modal -->
+    <div class="modal-overlay hidden" id="helpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">How to Use</h2>
+                <button class="modal-close" id="closeHelpBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h3>Setup</h3>
+                    <div class="help-step">
+                        <div class="help-step-num">1</div>
+                        <div class="help-step-text">Position your phone at floor level, pointed at the line you want to monitor.</div>
+                    </div>
+                    <div class="help-step">
+                        <div class="help-step-num">2</div>
+                        <div class="help-step-text">Use the Crop feature to focus on just the line area for longer recording buffer.</div>
+                    </div>
+                </div>
 
-    const CONFIG = {
-        FPS: 24,
-        BUFFER_SECONDS: 120,
-        CAPTURE_WIDTH: null,
-        CAPTURE_HEIGHT: null
-    };
+                <div class="help-section">
+                    <h3>During Play</h3>
+                    <p>The app continuously records. When there's a disputed call, tap "Review Last Ball" to instantly rewind.</p>
+                </div>
 
-    const state = {
-        mode: 'live', // 'live', 'crop', 'review'
-        stream: null,
-        captureCanvas: null,
-        captureCtx: null,
-        frameBuffer: [],
-        maxFrames: 2700,
-        isCapturing: false,
-        captureAnimationId: null,
-        lastCaptureTime: 0,
-        isFullscreen: false,
+                <div class="help-section">
+                    <h3>Review Mode</h3>
+                    <div class="help-step">
+                        <div class="help-step-num">1</div>
+                        <div class="help-step-text">Use the scrubber or ±15s buttons to find the moment.</div>
+                    </div>
+                    <div class="help-step">
+                        <div class="help-step-num">2</div>
+                        <div class="help-step-text">Use Frame buttons to step through frame-by-frame.</div>
+                    </div>
+                    <div class="help-step">
+                        <div class="help-step-num">3</div>
+                        <div class="help-step-text">Tap "Set Loop" to replay the moment continuously.</div>
+                    </div>
+                    <div class="help-step">
+                        <div class="help-step-num">4</div>
+                        <div class="help-step-text">Adjust playback speed (0.1× to 1×) for slow motion.</div>
+                    </div>
+                </div>
 
-        // Crop state (relative to video, 0-1)
-        cropEnabled: false,
-        cropRect: { x: 0.1, y: 0.3, width: 0.8, height: 0.4 },
+                <div class="help-section">
+                    <h3>Tips</h3>
+                    <p>• Use a small tripod or phone holder for stability<br>
+                       • Smaller crop region = longer buffer time<br>
+                       • 0.1× speed is best for close calls</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Video dimensions
-        videoWidth: 0,
-        videoHeight: 0,
+    <!-- Settings Modal -->
+    <div class="modal-overlay hidden" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Settings</h2>
+                <button class="modal-close" id="closeSettingsBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h3>Frame Rate (FPS)</h3>
+                    <p>Higher FPS = smoother slow-motion but shorter buffer time.</p>
+                    <div class="fps-selector">
+                        <button class="fps-option" data-fps="24">24 FPS</button>
+                        <button class="fps-option" data-fps="30">30 FPS</button>
+                        <button class="fps-option active" data-fps="60">60 FPS</button>
+                    </div>
+                    <p class="fps-description" id="fpsDescription">60 FPS - Smoothest slow-motion, shorter buffer</p>
+                </div>
 
-        // Review state
-        reviewIndex: 0,
-        isPlaying: false,
-        playbackSpeed: 1,
-        playbackInterval: null,
+                <div class="help-section">
+                    <h3>Camera</h3>
+                    <p>Camera selection is available on the live monitoring screen.</p>
+                </div>
 
-        // Loop state
-        loopEnabled: false,
-        loopStartIndex: 0,
-        loopEndIndex: 0
-    };
+                <div class="help-section">
+                    <h3>Current Settings</h3>
+                    <p>• Frame Rate: <span id="currentFpsDisplay">60</span> FPS<br>
+                       • Buffer: Up to 2 minutes (with crop)<br>
+                       • Resolution: Auto-optimized</p>
+                </div>
 
-    const el = {
-        // Home screen elements
-        homeScreen: document.getElementById('homeScreen'),
-        startLiveBtn: document.getElementById('startLiveBtn'),
-        helpBtn: document.getElementById('helpBtn'),
-        settingsBtn: document.getElementById('settingsBtn'),
-        helpModal: document.getElementById('helpModal'),
-        closeHelpBtn: document.getElementById('closeHelpBtn'),
-        settingsModal: document.getElementById('settingsModal'),
-        closeSettingsBtn: document.getElementById('closeSettingsBtn'),
-        backToHomeBtn: document.getElementById('backToHomeBtn'),
+                <div class="help-section">
+                    <h3>Coming Soon</h3>
+                    <p>• Native camera (longer buffer)<br>
+                       • Video export<br>
+                       • Dual camera mode</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // App elements
-        appContainer: document.getElementById('appContainer'),
-        videoContainer: document.getElementById('videoContainer'),
-        liveVideo: document.getElementById('liveVideo'),
-        reviewCanvas: document.getElementById('reviewCanvas'),
-        recordingIndicator: document.getElementById('recordingIndicator'),
-        modeBadge: document.getElementById('modeBadge'),
-        modeLabel: document.getElementById('modeLabel'),
-        bufferBadge: document.getElementById('bufferBadge'),
-        bufferCount: document.getElementById('bufferCount'),
-        timeBadge: document.getElementById('timeBadge'),
-        statusOverlay: document.getElementById('statusOverlay'),
-        statusText: document.getElementById('statusText'),
-        cameraSelect: document.getElementById('cameraSelect'),
-        liveControls: document.getElementById('liveControls'),
-        reviewControls: document.getElementById('reviewControls'),
-        cropControls: document.getElementById('cropControls'),
-        reviewBtn: document.getElementById('reviewBtn'),
-        backBtn: document.getElementById('backBtn'),
-        rewindBtn: document.getElementById('rewindBtn'),
-        playBtn: document.getElementById('playBtn'),
-        forwardBtn: document.getElementById('forwardBtn'),
-        framePrev: document.getElementById('framePrev'),
-        frameNext: document.getElementById('frameNext'),
-        currentTime: document.getElementById('currentTime'),
-        totalTime: document.getElementById('totalTime'),
-        fullscreenBtn: document.getElementById('fullscreenBtn'),
-        exitFullscreenBtn: document.getElementById('exitFullscreenBtn'),
-        scrubberInput: document.getElementById('scrubberInput'),
-        loopBtn: document.getElementById('loopBtn'),
-        loopIndicator: document.getElementById('loopIndicator'),
-        reviewOverlayControls: document.getElementById('reviewOverlayControls'),
-        cropOverlay: document.getElementById('cropOverlay'),
-        cropRegion: document.getElementById('cropRegion'),
-        cropLabel: document.getElementById('cropLabel'),
-        cropToggleBtn: document.getElementById('cropToggleBtn'),
-        confirmCropBtn: document.getElementById('confirmCropBtn'),
-        liveCropOverlay: document.getElementById('liveCropOverlay'),
-        liveCropRegion: document.getElementById('liveCropRegion')
-    };
+    <!-- Main App Container (hidden until Start is pressed) -->
+    <div class="app-container hidden" id="appContainer">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-to-home-btn" id="backToHomeBtn">‹</button>
+                <h1>PickleVAR</h1>
+            </div>
+            <div class="header-right">
+                <div class="recording-indicator" id="recordingIndicator">Ready</div>
+                <button class="fullscreen-btn" id="fullscreenBtn">⛶</button>
+            </div>
+        </header>
 
-    // ============================================
-    // INITIALIZATION
-    // ============================================
+        <div class="video-container" id="videoContainer">
+            <video id="liveVideo" autoplay playsinline muted></video>
+            <canvas id="reviewCanvas"></canvas>
 
-    async function init() {
-        if (!window.isSecureContext) {
-            showError('Requires HTTPS', 'Camera access needs a secure connection.');
-            return;
-        }
+            <!-- Live crop indicator (shown during recording when crop is enabled) -->
+            <div class="live-crop-overlay" id="liveCropOverlay">
+                <div class="live-crop-region" id="liveCropRegion"></div>
+            </div>
 
-        state.captureCanvas = document.createElement('canvas');
-        state.captureCtx = null;
+            <!-- Crop overlay -->
+            <div class="crop-overlay" id="cropOverlay">
+                <div class="crop-region" id="cropRegion">
+                    <div class="crop-handle top-left" data-handle="tl"></div>
+                    <div class="crop-handle top-right" data-handle="tr"></div>
+                    <div class="crop-handle bottom-left" data-handle="bl"></div>
+                    <div class="crop-handle bottom-right" data-handle="br"></div>
+                    <div class="crop-label" id="cropLabel">Drag to position</div>
+                </div>
+                <div class="crop-instructions">
+                    Position the green box over the line you want to monitor.<br>
+                    Drag corners to resize, drag center to move.
+                </div>
+            </div>
 
-        try {
-            showStatus('Requesting camera access...');
-            await getCameras();
-            await startCamera();
-            hideStatus();
-            setupListeners();
-            setupCropHandlers();
-        } catch (err) {
-            console.error('Init error:', err);
-            showError('Camera Error', 'Could not access camera. Please allow permission and reload.');
-        }
-    }
+            <div class="overlay-info">
+                <div class="info-badge recording" id="modeBadge">● LIVE</div>
+            </div>
 
-    async function getCameras() {
-        try {
-            let devices = await navigator.mediaDevices.enumerateDevices();
-            let cameras = devices.filter(d => d.kind === 'videoinput');
+            <div class="buffer-badge" id="bufferBadge">
+                Buffer: <span id="bufferCount">0</span>s
+            </div>
 
-            if (cameras.length === 0 || !cameras[0].label) {
-                const tempStream = await navigator.mediaDevices.getUserMedia({ video: true });
-                state.stream = tempStream;
-                el.liveVideo.srcObject = tempStream;
-                devices = await navigator.mediaDevices.enumerateDevices();
-                cameras = devices.filter(d => d.kind === 'videoinput');
+            <div class="time-badge" id="timeBadge">00:00.0</div>
+
+            <button class="exit-fullscreen-btn" id="exitFullscreenBtn">✕ Exit</button>
+
+            <!-- Review controls overlay (shown in both regular and fullscreen review mode) -->
+            <div class="review-overlay-controls" id="reviewOverlayControls">
+                <div class="review-overlay-scrubber">
+                    <div class="loop-indicator" id="loopIndicator"></div>
+                    <input type="range" class="review-scrubber" id="scrubberInput" min="0" max="100" value="0">
+                    <div class="review-time-row">
+                        <span id="currentTime">00:00.0</span>
+                        <span id="totalTime">00:00.0</span>
+                    </div>
+                </div>
+                <div class="review-overlay-row">
+                    <button class="review-btn-overlay" id="rewindBtn">⏪ -15s</button>
+                    <button class="review-btn-overlay play" id="playBtn">▶️</button>
+                    <button class="review-btn-overlay" id="forwardBtn">+15s ⏩</button>
+                </div>
+                <div class="review-overlay-row">
+                    <button class="review-btn-overlay frame" id="framePrev">◀ Frame</button>
+                    <button class="review-btn-overlay loop" id="loopBtn">🔄 Set Loop</button>
+                    <button class="review-btn-overlay frame" id="frameNext">Frame ▶</button>
+                </div>
+                <div class="review-overlay-row speed">
+                    <button class="review-speed-btn" data-speed="0.1">0.1×</button>
+                    <button class="review-speed-btn" data-speed="0.25">0.25×</button>
+                    <button class="review-speed-btn" data-speed="0.5">0.5×</button>
+                    <button class="review-speed-btn active" data-speed="1">1×</button>
+                </div>
+            </div>
+
+            <div class="status-overlay" id="statusOverlay">
+                <div class="spinner"></div>
+                <div class="status-text" id="statusText">Initializing camera...</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="mode-label live" id="modeLabel">● RECORDING</div>
+
+            <div class="camera-row">
+                <select class="camera-select" id="cameraSelect">
+                    <option value="">Loading cameras...</option>
+                </select>
+                <button class="crop-toggle-btn" id="cropToggleBtn">✂ Crop</button>
+            </div>
+
+            <div class="live-controls" id="liveControls">
+                <button class="primary-btn review-btn" id="reviewBtn">
+                    ⏪ Review Last Ball
+                </button>
+            </div>
+
+            <div class="crop-controls" id="cropControls">
+                <button class="primary-btn confirm-crop-btn" id="confirmCropBtn">
+                    ✓ Apply Crop Region
+                </button>
+            </div>
+
+            <div class="review-controls" id="reviewControls">
+                <button class="primary-btn back-btn" id="backBtn">
+                    📹 Back to Live
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIG & STATE
+        // ============================================
+
+        const CONFIG = {
+            FPS: 60,
+            BUFFER_SECONDS: 120,
+            CAPTURE_WIDTH: null,
+            CAPTURE_HEIGHT: null
+        };
+
+        const state = {
+            mode: 'live', // 'live', 'crop', 'review'
+            stream: null,
+            captureCanvas: null,
+            captureCtx: null,
+            frameBuffer: [],
+            maxFrames: 2700,
+            isCapturing: false,
+            captureAnimationId: null,
+            lastCaptureTime: 0,
+            isFullscreen: false,
+
+            // Crop state (relative to video, 0-1)
+            cropEnabled: false,
+            cropRect: { x: 0.1, y: 0.3, width: 0.8, height: 0.4 },
+            
+            // Video dimensions
+            videoWidth: 0,
+            videoHeight: 0,
+
+            // Review state
+            reviewIndex: 0,
+            isPlaying: false,
+            playbackSpeed: 1,
+            playbackInterval: null,
+            
+            // Loop state
+            loopEnabled: false,
+            loopStartIndex: 0,
+            loopEndIndex: 0
+        };
+
+        const el = {
+            // Home screen elements
+            homeScreen: document.getElementById('homeScreen'),
+            startLiveBtn: document.getElementById('startLiveBtn'),
+            helpBtn: document.getElementById('helpBtn'),
+            settingsBtn: document.getElementById('settingsBtn'),
+            helpModal: document.getElementById('helpModal'),
+            closeHelpBtn: document.getElementById('closeHelpBtn'),
+            settingsModal: document.getElementById('settingsModal'),
+            closeSettingsBtn: document.getElementById('closeSettingsBtn'),
+            backToHomeBtn: document.getElementById('backToHomeBtn'),
+
+            // App elements
+            appContainer: document.getElementById('appContainer'),
+            videoContainer: document.getElementById('videoContainer'),
+            liveVideo: document.getElementById('liveVideo'),
+            reviewCanvas: document.getElementById('reviewCanvas'),
+            recordingIndicator: document.getElementById('recordingIndicator'),
+            modeBadge: document.getElementById('modeBadge'),
+            modeLabel: document.getElementById('modeLabel'),
+            bufferBadge: document.getElementById('bufferBadge'),
+            bufferCount: document.getElementById('bufferCount'),
+            timeBadge: document.getElementById('timeBadge'),
+            statusOverlay: document.getElementById('statusOverlay'),
+            statusText: document.getElementById('statusText'),
+            cameraSelect: document.getElementById('cameraSelect'),
+            liveControls: document.getElementById('liveControls'),
+            reviewControls: document.getElementById('reviewControls'),
+            cropControls: document.getElementById('cropControls'),
+            reviewBtn: document.getElementById('reviewBtn'),
+            backBtn: document.getElementById('backBtn'),
+            rewindBtn: document.getElementById('rewindBtn'),
+            playBtn: document.getElementById('playBtn'),
+            forwardBtn: document.getElementById('forwardBtn'),
+            framePrev: document.getElementById('framePrev'),
+            frameNext: document.getElementById('frameNext'),
+            currentTime: document.getElementById('currentTime'),
+            totalTime: document.getElementById('totalTime'),
+            fullscreenBtn: document.getElementById('fullscreenBtn'),
+            exitFullscreenBtn: document.getElementById('exitFullscreenBtn'),
+            scrubberInput: document.getElementById('scrubberInput'),
+            loopBtn: document.getElementById('loopBtn'),
+            loopIndicator: document.getElementById('loopIndicator'),
+            reviewOverlayControls: document.getElementById('reviewOverlayControls'),
+            cropOverlay: document.getElementById('cropOverlay'),
+            cropRegion: document.getElementById('cropRegion'),
+            cropLabel: document.getElementById('cropLabel'),
+            cropToggleBtn: document.getElementById('cropToggleBtn'),
+            confirmCropBtn: document.getElementById('confirmCropBtn'),
+            liveCropOverlay: document.getElementById('liveCropOverlay'),
+            liveCropRegion: document.getElementById('liveCropRegion')
+        };
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+
+        async function init() {
+            if (!window.isSecureContext) {
+                showError('Requires HTTPS', 'Camera access needs a secure connection.');
+                return;
             }
 
-            el.cameraSelect.innerHTML = '';
-            cameras.forEach((cam, i) => {
-                const opt = document.createElement('option');
-                opt.value = cam.deviceId;
-                opt.textContent = cam.label || `Camera ${i + 1}`;
-                if (cam.label.toLowerCase().includes('back') || cam.label.toLowerCase().includes('rear')) {
-                    opt.selected = true;
+            state.captureCanvas = document.createElement('canvas');
+            state.captureCtx = null;
+
+            try {
+                showStatus('Requesting camera access...');
+                await getCameras();
+                await startCamera();
+                hideStatus();
+                setupListeners();
+                setupCropHandlers();
+            } catch (err) {
+                console.error('Init error:', err);
+                showError('Camera Error', 'Could not access camera. Please allow permission and reload.');
+            }
+        }
+
+        async function getCameras() {
+            try {
+                let devices = await navigator.mediaDevices.enumerateDevices();
+                let cameras = devices.filter(d => d.kind === 'videoinput');
+                
+                if (cameras.length === 0 || !cameras[0].label) {
+                    const tempStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    state.stream = tempStream;
+                    el.liveVideo.srcObject = tempStream;
+                    devices = await navigator.mediaDevices.enumerateDevices();
+                    cameras = devices.filter(d => d.kind === 'videoinput');
                 }
-                el.cameraSelect.appendChild(opt);
+
+                el.cameraSelect.innerHTML = '';
+                cameras.forEach((cam, i) => {
+                    const opt = document.createElement('option');
+                    opt.value = cam.deviceId;
+                    opt.textContent = cam.label || `Camera ${i + 1}`;
+                    if (cam.label.toLowerCase().includes('back') || cam.label.toLowerCase().includes('rear')) {
+                        opt.selected = true;
+                    }
+                    el.cameraSelect.appendChild(opt);
+                });
+
+                if (cameras.length === 0) throw new Error('No cameras found');
+            } catch (err) {
+                console.error('getCameras error:', err);
+                throw err;
+            }
+        }
+
+        async function startCamera(deviceId) {
+            if (state.stream) {
+                state.stream.getTracks().forEach(t => t.stop());
+                stopCapturing();
+            }
+
+            const constraints = {
+                video: {
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 },
+                    frameRate: { ideal: CONFIG.FPS },
+                    facingMode: deviceId ? undefined : 'environment'
+                },
+                audio: false
+            };
+
+            if (deviceId) {
+                constraints.video.deviceId = { exact: deviceId };
+            }
+
+            state.stream = await navigator.mediaDevices.getUserMedia(constraints);
+            el.liveVideo.srcObject = state.stream;
+
+            await new Promise(resolve => {
+                el.liveVideo.onloadedmetadata = () => {
+                    el.liveVideo.play().then(resolve).catch(resolve);
+                };
             });
 
-            if (cameras.length === 0) throw new Error('No cameras found');
-        } catch (err) {
-            console.error('getCameras error:', err);
-            throw err;
-        }
-    }
-
-    async function startCamera(deviceId) {
-        if (state.stream) {
-            state.stream.getTracks().forEach(t => t.stop());
-            stopCapturing();
-        }
-
-        const constraints = {
-            video: {
-                width: { ideal: 1920 },
-                height: { ideal: 1080 },
-                frameRate: { ideal: CONFIG.FPS },
-                facingMode: deviceId ? undefined : 'environment'
-            },
-            audio: false
-        };
-
-        if (deviceId) {
-            constraints.video.deviceId = { exact: deviceId };
-        }
-
-        state.stream = await navigator.mediaDevices.getUserMedia(constraints);
-        el.liveVideo.srcObject = state.stream;
-
-        await new Promise(resolve => {
-            el.liveVideo.onloadedmetadata = () => {
-                el.liveVideo.play().then(resolve).catch(resolve);
+            el.liveVideo.onpause = () => {
+                if (state.mode === 'live' && state.stream) {
+                    el.liveVideo.play().catch(() => {});
+                }
             };
-        });
 
-        el.liveVideo.onpause = () => {
-            if (state.mode === 'live' && state.stream) {
-                el.liveVideo.play().catch(() => {});
-            }
-        };
+            state.videoWidth = el.liveVideo.videoWidth;
+            state.videoHeight = el.liveVideo.videoHeight;
+            
+            console.log(`Camera resolution: ${state.videoWidth}x${state.videoHeight}`);
 
-        state.videoWidth = el.liveVideo.videoWidth;
-        state.videoHeight = el.liveVideo.videoHeight;
-
-        console.log(`Camera resolution: ${state.videoWidth}x${state.videoHeight}`);
-
-        setupCaptureCanvas();
-        state.frameBuffer = [];
-        startCapturing();
-    }
-
-    function setupCaptureCanvas() {
-        let captureWidth, captureHeight;
-
-        if (state.cropEnabled) {
-            // Calculate crop dimensions in pixels
-            const cropPixelWidth = Math.round(state.videoWidth * state.cropRect.width);
-            const cropPixelHeight = Math.round(state.videoHeight * state.cropRect.height);
-
-            // Scale down if needed, max 480px on longest side
-            const maxDim = 480;
-            if (cropPixelWidth > cropPixelHeight) {
-                captureWidth = Math.min(cropPixelWidth, maxDim);
-                captureHeight = Math.round(captureWidth * (cropPixelHeight / cropPixelWidth));
-            } else {
-                captureHeight = Math.min(cropPixelHeight, maxDim);
-                captureWidth = Math.round(captureHeight * (cropPixelWidth / cropPixelHeight));
-            }
-        } else {
-            // Full frame, scale to 480p
-            const maxDim = 480;
-            if (state.videoWidth > state.videoHeight) {
-                captureWidth = Math.min(state.videoWidth, maxDim);
-                captureHeight = Math.round(captureWidth * (state.videoHeight / state.videoWidth));
-            } else {
-                captureHeight = Math.min(state.videoHeight, maxDim);
-                captureWidth = Math.round(captureHeight * (state.videoWidth / state.videoHeight));
-            }
+            setupCaptureCanvas();
+            state.frameBuffer = [];
+            startCapturing();
         }
 
-        // Ensure even dimensions
-        captureWidth = Math.floor(captureWidth / 2) * 2;
-        captureHeight = Math.floor(captureHeight / 2) * 2;
+        function setupCaptureCanvas() {
+            let captureWidth, captureHeight;
 
-        CONFIG.CAPTURE_WIDTH = captureWidth;
-        CONFIG.CAPTURE_HEIGHT = captureHeight;
+            if (state.cropEnabled) {
+                // Calculate crop dimensions in pixels
+                const cropPixelWidth = Math.round(state.videoWidth * state.cropRect.width);
+                const cropPixelHeight = Math.round(state.videoHeight * state.cropRect.height);
+                
+                // Scale down if needed, max 480px on longest side
+                const maxDim = 480;
+                if (cropPixelWidth > cropPixelHeight) {
+                    captureWidth = Math.min(cropPixelWidth, maxDim);
+                    captureHeight = Math.round(captureWidth * (cropPixelHeight / cropPixelWidth));
+                } else {
+                    captureHeight = Math.min(cropPixelHeight, maxDim);
+                    captureWidth = Math.round(captureHeight * (cropPixelWidth / cropPixelHeight));
+                }
+            } else {
+                // Full frame, scale to 480p
+                const maxDim = 480;
+                if (state.videoWidth > state.videoHeight) {
+                    captureWidth = Math.min(state.videoWidth, maxDim);
+                    captureHeight = Math.round(captureWidth * (state.videoHeight / state.videoWidth));
+                } else {
+                    captureHeight = Math.min(state.videoHeight, maxDim);
+                    captureWidth = Math.round(captureHeight * (state.videoWidth / state.videoHeight));
+                }
+            }
 
-        state.captureCanvas.width = captureWidth;
-        state.captureCanvas.height = captureHeight;
-        state.captureCtx = state.captureCanvas.getContext('2d', { willReadFrequently: true });
+            // Ensure even dimensions
+            captureWidth = Math.floor(captureWidth / 2) * 2;
+            captureHeight = Math.floor(captureHeight / 2) * 2;
 
-        el.reviewCanvas.width = captureWidth;
-        el.reviewCanvas.height = captureHeight;
+            CONFIG.CAPTURE_WIDTH = captureWidth;
+            CONFIG.CAPTURE_HEIGHT = captureHeight;
 
-        // Calculate max frames
-        const bytesPerFrame = captureWidth * captureHeight * 4;
-        const targetMemoryMB = 500;
-        const maxFramesByMemory = Math.floor((targetMemoryMB * 1024 * 1024) / bytesPerFrame);
-        state.maxFrames = Math.min(CONFIG.FPS * CONFIG.BUFFER_SECONDS, maxFramesByMemory);
+            state.captureCanvas.width = captureWidth;
+            state.captureCanvas.height = captureHeight;
+            state.captureCtx = state.captureCanvas.getContext('2d', { willReadFrequently: true });
 
-        const bufferSecs = (state.maxFrames / CONFIG.FPS).toFixed(0);
-        console.log(`Capture: ${captureWidth}x${captureHeight}, Buffer: ~${bufferSecs}s`);
-        el.cropLabel.textContent = `~${bufferSecs}s buffer`;
-    }
+            el.reviewCanvas.width = captureWidth;
+            el.reviewCanvas.height = captureHeight;
 
-    // ============================================
-    // CROP HANDLING
-    // ============================================
+            // Calculate max frames
+            const bytesPerFrame = captureWidth * captureHeight * 4;
+            const targetMemoryMB = 500;
+            const maxFramesByMemory = Math.floor((targetMemoryMB * 1024 * 1024) / bytesPerFrame);
+            state.maxFrames = Math.min(CONFIG.FPS * CONFIG.BUFFER_SECONDS, maxFramesByMemory);
 
-    function enterCropMode() {
-        state.mode = 'crop';
-        stopCapturing();
+            const bufferSecs = (state.maxFrames / CONFIG.FPS).toFixed(0);
+            console.log(`Capture: ${captureWidth}x${captureHeight}, Buffer: ~${bufferSecs}s`);
+            el.cropLabel.textContent = `~${bufferSecs}s buffer`;
+        }
 
-        el.liveCropOverlay.classList.remove('visible');
-        el.cropOverlay.classList.add('visible');
-        el.liveControls.classList.add('hidden');
-        el.cropControls.classList.add('active');
-        el.cropToggleBtn.classList.add('active');
+        // ============================================
+        // CROP HANDLING
+        // ============================================
 
-        el.modeBadge.textContent = '✂ CROP';
-        el.modeBadge.classList.remove('recording', 'review');
-        el.modeBadge.classList.add('crop-mode');
+        function enterCropMode() {
+            state.mode = 'crop';
+            stopCapturing();
+            
+            el.liveCropOverlay.classList.remove('visible');
+            el.cropOverlay.classList.add('visible');
+            el.liveControls.classList.add('hidden');
+            el.cropControls.classList.add('active');
+            el.cropToggleBtn.classList.add('active');
+            
+            el.modeBadge.textContent = '✂ CROP';
+            el.modeBadge.classList.remove('recording', 'review');
+            el.modeBadge.classList.add('crop-mode');
+            
+            el.modeLabel.textContent = '✂ SET CROP REGION';
+            el.modeLabel.classList.remove('live', 'review');
+            el.modeLabel.classList.add('crop');
 
-        el.modeLabel.textContent = '✂ SET CROP REGION';
-        el.modeLabel.classList.remove('live', 'review');
-        el.modeLabel.classList.add('crop');
+            updateCropRegionDisplay();
+        }
 
-        updateCropRegionDisplay();
-    }
+        function exitCropMode(apply = false) {
+            if (apply) {
+                state.cropEnabled = true;
+                state.frameBuffer = []; // Clear buffer when crop changes
+                setupCaptureCanvas();
+            }
 
-    function exitCropMode(apply = false) {
-        if (apply) {
-            state.cropEnabled = true;
-            state.frameBuffer = []; // Clear buffer when crop changes
+            state.mode = 'live';
+            
+            el.cropOverlay.classList.remove('visible');
+            el.cropControls.classList.remove('active');
+            el.liveControls.classList.remove('hidden');
+            el.cropToggleBtn.classList.toggle('active', state.cropEnabled);
+            
+            el.modeBadge.textContent = '● LIVE';
+            el.modeBadge.classList.add('recording');
+            el.modeBadge.classList.remove('crop-mode', 'review');
+            
+            el.modeLabel.textContent = '● RECORDING';
+            el.modeLabel.classList.add('live');
+            el.modeLabel.classList.remove('crop', 'review');
+
+            // Show live crop indicator if crop is enabled
+            updateLiveCropOverlay();
+
+            startCapturing();
+        }
+
+        function updateCropRegionDisplay() {
+            const container = el.videoContainer;
+            const video = el.liveVideo;
+            
+            // Get video display dimensions
+            const containerRect = container.getBoundingClientRect();
+            const videoAspect = state.videoWidth / state.videoHeight;
+            const containerAspect = containerRect.width / containerRect.height;
+            
+            let displayWidth, displayHeight, offsetX, offsetY;
+            
+            if (videoAspect > containerAspect) {
+                // Video is wider - letterbox top/bottom
+                displayWidth = containerRect.width;
+                displayHeight = containerRect.width / videoAspect;
+                offsetX = 0;
+                offsetY = (containerRect.height - displayHeight) / 2;
+            } else {
+                // Video is taller - letterbox left/right
+                displayHeight = containerRect.height;
+                displayWidth = containerRect.height * videoAspect;
+                offsetX = (containerRect.width - displayWidth) / 2;
+                offsetY = 0;
+            }
+
+            // Convert crop rect to screen coordinates
+            const screenX = offsetX + state.cropRect.x * displayWidth;
+            const screenY = offsetY + state.cropRect.y * displayHeight;
+            const screenW = state.cropRect.width * displayWidth;
+            const screenH = state.cropRect.height * displayHeight;
+
+            el.cropRegion.style.left = `${screenX}px`;
+            el.cropRegion.style.top = `${screenY}px`;
+            el.cropRegion.style.width = `${screenW}px`;
+            el.cropRegion.style.height = `${screenH}px`;
+
+            // Update buffer estimate
             setupCaptureCanvas();
         }
 
-        state.mode = 'live';
+        function setupCropHandlers() {
+            let isDragging = false;
+            let dragType = null; // 'move' or 'tl', 'tr', 'bl', 'br'
+            let startX, startY;
+            let startRect;
 
-        el.cropOverlay.classList.remove('visible');
-        el.cropControls.classList.remove('active');
-        el.liveControls.classList.remove('hidden');
-        el.cropToggleBtn.classList.toggle('active', state.cropEnabled);
+            function getEventPos(e) {
+                const touch = e.touches ? e.touches[0] : e;
+                return { x: touch.clientX, y: touch.clientY };
+            }
 
-        el.modeBadge.textContent = '● LIVE';
-        el.modeBadge.classList.add('recording');
-        el.modeBadge.classList.remove('crop-mode', 'review');
+            function getVideoCoords(screenX, screenY) {
+                const container = el.videoContainer;
+                const containerRect = container.getBoundingClientRect();
+                const videoAspect = state.videoWidth / state.videoHeight;
+                const containerAspect = containerRect.width / containerRect.height;
+                
+                let displayWidth, displayHeight, offsetX, offsetY;
+                
+                if (videoAspect > containerAspect) {
+                    displayWidth = containerRect.width;
+                    displayHeight = containerRect.width / videoAspect;
+                    offsetX = 0;
+                    offsetY = (containerRect.height - displayHeight) / 2;
+                } else {
+                    displayHeight = containerRect.height;
+                    displayWidth = containerRect.height * videoAspect;
+                    offsetX = (containerRect.width - displayWidth) / 2;
+                    offsetY = 0;
+                }
 
-        el.modeLabel.textContent = '● RECORDING';
-        el.modeLabel.classList.add('live');
-        el.modeLabel.classList.remove('crop', 'review');
+                return {
+                    x: (screenX - containerRect.left - offsetX) / displayWidth,
+                    y: (screenY - containerRect.top - offsetY) / displayHeight,
+                    displayWidth,
+                    displayHeight
+                };
+            }
 
-        // Show live crop indicator if crop is enabled
-        updateLiveCropOverlay();
+            function onStart(e) {
+                if (state.mode !== 'crop') return;
+                e.preventDefault();
+                
+                const target = e.target;
+                const pos = getEventPos(e);
+                startX = pos.x;
+                startY = pos.y;
+                startRect = { ...state.cropRect };
 
-        startCapturing();
-    }
+                if (target.classList.contains('crop-handle')) {
+                    dragType = target.dataset.handle;
+                } else if (target === el.cropRegion || target.classList.contains('crop-label')) {
+                    dragType = 'move';
+                } else {
+                    return;
+                }
 
-    function updateCropRegionDisplay() {
-        const container = el.videoContainer;
-        const video = el.liveVideo;
+                isDragging = true;
+            }
 
-        // Get video display dimensions
-        const containerRect = container.getBoundingClientRect();
-        const videoAspect = state.videoWidth / state.videoHeight;
-        const containerAspect = containerRect.width / containerRect.height;
+            function onMove(e) {
+                if (!isDragging) return;
+                e.preventDefault();
 
-        let displayWidth, displayHeight, offsetX, offsetY;
+                const pos = getEventPos(e);
+                const coords = getVideoCoords(pos.x, pos.y);
+                const startCoords = getVideoCoords(startX, startY);
+                
+                const dx = coords.x - startCoords.x;
+                const dy = coords.y - startCoords.y;
 
-        if (videoAspect > containerAspect) {
-            // Video is wider - letterbox top/bottom
-            displayWidth = containerRect.width;
-            displayHeight = containerRect.width / videoAspect;
-            offsetX = 0;
-            offsetY = (containerRect.height - displayHeight) / 2;
-        } else {
-            // Video is taller - letterbox left/right
-            displayHeight = containerRect.height;
-            displayWidth = containerRect.height * videoAspect;
-            offsetX = (containerRect.width - displayWidth) / 2;
-            offsetY = 0;
+                if (dragType === 'move') {
+                    state.cropRect.x = Math.max(0, Math.min(1 - startRect.width, startRect.x + dx));
+                    state.cropRect.y = Math.max(0, Math.min(1 - startRect.height, startRect.y + dy));
+                } else {
+                    // Handle resize
+                    let newX = startRect.x;
+                    let newY = startRect.y;
+                    let newW = startRect.width;
+                    let newH = startRect.height;
+
+                    if (dragType.includes('l')) {
+                        newX = Math.max(0, Math.min(startRect.x + startRect.width - 0.1, startRect.x + dx));
+                        newW = startRect.width - (newX - startRect.x);
+                    }
+                    if (dragType.includes('r')) {
+                        newW = Math.max(0.1, Math.min(1 - startRect.x, startRect.width + dx));
+                    }
+                    if (dragType.includes('t')) {
+                        newY = Math.max(0, Math.min(startRect.y + startRect.height - 0.1, startRect.y + dy));
+                        newH = startRect.height - (newY - startRect.y);
+                    }
+                    if (dragType.includes('b')) {
+                        newH = Math.max(0.1, Math.min(1 - startRect.y, startRect.height + dy));
+                    }
+
+                    state.cropRect = { x: newX, y: newY, width: newW, height: newH };
+                }
+
+                updateCropRegionDisplay();
+            }
+
+            function onEnd() {
+                isDragging = false;
+                dragType = null;
+            }
+
+            // Mouse events
+            el.cropRegion.addEventListener('mousedown', onStart);
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onEnd);
+
+            // Touch events
+            el.cropRegion.addEventListener('touchstart', onStart, { passive: false });
+            document.addEventListener('touchmove', onMove, { passive: false });
+            document.addEventListener('touchend', onEnd);
+
+            // Handle resize
+            window.addEventListener('resize', () => {
+                if (state.mode === 'crop') {
+                    updateCropRegionDisplay();
+                }
+                if (state.mode === 'live' && state.cropEnabled) {
+                    updateLiveCropOverlay();
+                }
+            });
         }
 
-        // Convert crop rect to screen coordinates
-        const screenX = offsetX + state.cropRect.x * displayWidth;
-        const screenY = offsetY + state.cropRect.y * displayHeight;
-        const screenW = state.cropRect.width * displayWidth;
-        const screenH = state.cropRect.height * displayHeight;
+        // ============================================
+        // FRAME CAPTURE
+        // ============================================
 
-        el.cropRegion.style.left = `${screenX}px`;
-        el.cropRegion.style.top = `${screenY}px`;
-        el.cropRegion.style.width = `${screenW}px`;
-        el.cropRegion.style.height = `${screenH}px`;
+        function startCapturing() {
+            if (state.isCapturing) return;
 
-        // Update buffer estimate
-        setupCaptureCanvas();
-    }
+            state.isCapturing = true;
+            state.lastCaptureTime = 0;
 
-    function setupCropHandlers() {
-        let isDragging = false;
-        let dragType = null; // 'move' or 'tl', 'tr', 'bl', 'br'
-        let startX, startY;
-        let startRect;
+            el.recordingIndicator.classList.add('active');
+            el.recordingIndicator.textContent = 'Recording';
 
-        function getEventPos(e) {
-            const touch = e.touches ? e.touches[0] : e;
-            return { x: touch.clientX, y: touch.clientY };
+            function captureLoop(timestamp) {
+                if (!state.isCapturing) return;
+
+                const intervalMs = 1000 / CONFIG.FPS;
+                
+                if (timestamp - state.lastCaptureTime >= intervalMs) {
+                    captureFrame();
+                    state.lastCaptureTime = timestamp;
+                }
+
+                state.captureAnimationId = requestAnimationFrame(captureLoop);
+            }
+
+            state.captureAnimationId = requestAnimationFrame(captureLoop);
         }
 
-        function getVideoCoords(screenX, screenY) {
+        function stopCapturing() {
+            state.isCapturing = false;
+            if (state.captureAnimationId) {
+                cancelAnimationFrame(state.captureAnimationId);
+                state.captureAnimationId = null;
+            }
+            el.recordingIndicator.classList.remove('active');
+            el.recordingIndicator.textContent = 'Paused';
+        }
+
+        function captureFrame() {
+            try {
+                if (!state.stream || !el.liveVideo.videoWidth || el.liveVideo.paused) {
+                    if (el.liveVideo.paused && state.stream) {
+                        el.liveVideo.play().catch(() => {});
+                    }
+                    return;
+                }
+
+                if (state.cropEnabled) {
+                    // Capture cropped region
+                    const srcX = Math.round(state.cropRect.x * state.videoWidth);
+                    const srcY = Math.round(state.cropRect.y * state.videoHeight);
+                    const srcW = Math.round(state.cropRect.width * state.videoWidth);
+                    const srcH = Math.round(state.cropRect.height * state.videoHeight);
+
+                    state.captureCtx.drawImage(
+                        el.liveVideo,
+                        srcX, srcY, srcW, srcH,
+                        0, 0, CONFIG.CAPTURE_WIDTH, CONFIG.CAPTURE_HEIGHT
+                    );
+                } else {
+                    // Capture full frame
+                    state.captureCtx.drawImage(
+                        el.liveVideo,
+                        0, 0,
+                        CONFIG.CAPTURE_WIDTH,
+                        CONFIG.CAPTURE_HEIGHT
+                    );
+                }
+
+                const imageData = state.captureCtx.getImageData(
+                    0, 0,
+                    CONFIG.CAPTURE_WIDTH,
+                    CONFIG.CAPTURE_HEIGHT
+                );
+
+                state.frameBuffer.push(imageData);
+
+                while (state.frameBuffer.length > state.maxFrames) {
+                    state.frameBuffer.shift();
+                }
+
+                updateBufferDisplay();
+            } catch (err) {
+                console.error('Capture error:', err);
+            }
+        }
+
+        function updateBufferDisplay() {
+            const seconds = (state.frameBuffer.length / CONFIG.FPS).toFixed(1);
+            el.bufferCount.textContent = seconds;
+        }
+
+        function updateLiveCropOverlay() {
+            if (!state.cropEnabled || state.mode !== 'live') {
+                el.liveCropOverlay.classList.remove('visible');
+                return;
+            }
+
+            el.liveCropOverlay.classList.add('visible');
+
             const container = el.videoContainer;
             const containerRect = container.getBoundingClientRect();
             const videoAspect = state.videoWidth / state.videoHeight;
             const containerAspect = containerRect.width / containerRect.height;
-
+            
             let displayWidth, displayHeight, offsetX, offsetY;
-
+            
             if (videoAspect > containerAspect) {
                 displayWidth = containerRect.width;
                 displayHeight = containerRect.width / videoAspect;
@@ -1624,688 +1889,503 @@
                 offsetY = 0;
             }
 
-            return {
-                x: (screenX - containerRect.left - offsetX) / displayWidth,
-                y: (screenY - containerRect.top - offsetY) / displayHeight,
-                displayWidth,
-                displayHeight
-            };
+            const screenX = offsetX + state.cropRect.x * displayWidth;
+            const screenY = offsetY + state.cropRect.y * displayHeight;
+            const screenW = state.cropRect.width * displayWidth;
+            const screenH = state.cropRect.height * displayHeight;
+
+            el.liveCropRegion.style.left = `${screenX}px`;
+            el.liveCropRegion.style.top = `${screenY}px`;
+            el.liveCropRegion.style.width = `${screenW}px`;
+            el.liveCropRegion.style.height = `${screenH}px`;
         }
 
-        function onStart(e) {
-            if (state.mode !== 'crop') return;
-            e.preventDefault();
+        // ============================================
+        // REVIEW MODE
+        // ============================================
 
-            const target = e.target;
-            const pos = getEventPos(e);
-            startX = pos.x;
-            startY = pos.y;
-            startRect = { ...state.cropRect };
-
-            if (target.classList.contains('crop-handle')) {
-                dragType = target.dataset.handle;
-            } else if (target === el.cropRegion || target.classList.contains('crop-label')) {
-                dragType = 'move';
-            } else {
+        function enterReviewMode() {
+            if (state.frameBuffer.length < CONFIG.FPS) {
+                alert('Not enough footage yet. Wait a few seconds and try again.');
                 return;
             }
 
-            isDragging = true;
-        }
-
-        function onMove(e) {
-            if (!isDragging) return;
-            e.preventDefault();
-
-            const pos = getEventPos(e);
-            const coords = getVideoCoords(pos.x, pos.y);
-            const startCoords = getVideoCoords(startX, startY);
-
-            const dx = coords.x - startCoords.x;
-            const dy = coords.y - startCoords.y;
-
-            if (dragType === 'move') {
-                state.cropRect.x = Math.max(0, Math.min(1 - startRect.width, startRect.x + dx));
-                state.cropRect.y = Math.max(0, Math.min(1 - startRect.height, startRect.y + dy));
-            } else {
-                // Handle resize
-                let newX = startRect.x;
-                let newY = startRect.y;
-                let newW = startRect.width;
-                let newH = startRect.height;
-
-                if (dragType.includes('l')) {
-                    newX = Math.max(0, Math.min(startRect.x + startRect.width - 0.1, startRect.x + dx));
-                    newW = startRect.width - (newX - startRect.x);
-                }
-                if (dragType.includes('r')) {
-                    newW = Math.max(0.1, Math.min(1 - startRect.x, startRect.width + dx));
-                }
-                if (dragType.includes('t')) {
-                    newY = Math.max(0, Math.min(startRect.y + startRect.height - 0.1, startRect.y + dy));
-                    newH = startRect.height - (newY - startRect.y);
-                }
-                if (dragType.includes('b')) {
-                    newH = Math.max(0.1, Math.min(1 - startRect.y, startRect.height + dy));
-                }
-
-                state.cropRect = { x: newX, y: newY, width: newW, height: newH };
-            }
-
-            updateCropRegionDisplay();
-        }
-
-        function onEnd() {
-            isDragging = false;
-            dragType = null;
-        }
-
-        // Mouse events
-        el.cropRegion.addEventListener('mousedown', onStart);
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onEnd);
-
-        // Touch events
-        el.cropRegion.addEventListener('touchstart', onStart, { passive: false });
-        document.addEventListener('touchmove', onMove, { passive: false });
-        document.addEventListener('touchend', onEnd);
-
-        // Handle resize
-        window.addEventListener('resize', () => {
-            if (state.mode === 'crop') {
-                updateCropRegionDisplay();
-            }
-            if (state.mode === 'live' && state.cropEnabled) {
-                updateLiveCropOverlay();
-            }
-        });
-    }
-
-    // ============================================
-    // FRAME CAPTURE
-    // ============================================
-
-    function startCapturing() {
-        if (state.isCapturing) return;
-
-        state.isCapturing = true;
-        state.lastCaptureTime = 0;
-
-        el.recordingIndicator.classList.add('active');
-        el.recordingIndicator.textContent = 'Recording';
-
-        function captureLoop(timestamp) {
-            if (!state.isCapturing) return;
-
-            const intervalMs = 1000 / CONFIG.FPS;
-
-            if (timestamp - state.lastCaptureTime >= intervalMs) {
-                captureFrame();
-                state.lastCaptureTime = timestamp;
-            }
-
-            state.captureAnimationId = requestAnimationFrame(captureLoop);
-        }
-
-        state.captureAnimationId = requestAnimationFrame(captureLoop);
-    }
-
-    function stopCapturing() {
-        state.isCapturing = false;
-        if (state.captureAnimationId) {
-            cancelAnimationFrame(state.captureAnimationId);
-            state.captureAnimationId = null;
-        }
-        el.recordingIndicator.classList.remove('active');
-        el.recordingIndicator.textContent = 'Paused';
-    }
-
-    function captureFrame() {
-        try {
-            if (!state.stream || !el.liveVideo.videoWidth || el.liveVideo.paused) {
-                if (el.liveVideo.paused && state.stream) {
-                    el.liveVideo.play().catch(() => {});
-                }
-                return;
-            }
-
-            if (state.cropEnabled) {
-                // Capture cropped region
-                const srcX = Math.round(state.cropRect.x * state.videoWidth);
-                const srcY = Math.round(state.cropRect.y * state.videoHeight);
-                const srcW = Math.round(state.cropRect.width * state.videoWidth);
-                const srcH = Math.round(state.cropRect.height * state.videoHeight);
-
-                state.captureCtx.drawImage(
-                    el.liveVideo,
-                    srcX, srcY, srcW, srcH,
-                    0, 0, CONFIG.CAPTURE_WIDTH, CONFIG.CAPTURE_HEIGHT
-                );
-            } else {
-                // Capture full frame
-                state.captureCtx.drawImage(
-                    el.liveVideo,
-                    0, 0,
-                    CONFIG.CAPTURE_WIDTH,
-                    CONFIG.CAPTURE_HEIGHT
-                );
-            }
-
-            const imageData = state.captureCtx.getImageData(
-                0, 0,
-                CONFIG.CAPTURE_WIDTH,
-                CONFIG.CAPTURE_HEIGHT
-            );
-
-            state.frameBuffer.push(imageData);
-
-            while (state.frameBuffer.length > state.maxFrames) {
-                state.frameBuffer.shift();
-            }
-
-            updateBufferDisplay();
-        } catch (err) {
-            console.error('Capture error:', err);
-        }
-    }
-
-    function updateBufferDisplay() {
-        const seconds = (state.frameBuffer.length / CONFIG.FPS).toFixed(1);
-        el.bufferCount.textContent = seconds;
-    }
-
-    function updateLiveCropOverlay() {
-        if (!state.cropEnabled || state.mode !== 'live') {
-            el.liveCropOverlay.classList.remove('visible');
-            return;
-        }
-
-        el.liveCropOverlay.classList.add('visible');
-
-        const container = el.videoContainer;
-        const containerRect = container.getBoundingClientRect();
-        const videoAspect = state.videoWidth / state.videoHeight;
-        const containerAspect = containerRect.width / containerRect.height;
-
-        let displayWidth, displayHeight, offsetX, offsetY;
-
-        if (videoAspect > containerAspect) {
-            displayWidth = containerRect.width;
-            displayHeight = containerRect.width / videoAspect;
-            offsetX = 0;
-            offsetY = (containerRect.height - displayHeight) / 2;
-        } else {
-            displayHeight = containerRect.height;
-            displayWidth = containerRect.height * videoAspect;
-            offsetX = (containerRect.width - displayWidth) / 2;
-            offsetY = 0;
-        }
-
-        const screenX = offsetX + state.cropRect.x * displayWidth;
-        const screenY = offsetY + state.cropRect.y * displayHeight;
-        const screenW = state.cropRect.width * displayWidth;
-        const screenH = state.cropRect.height * displayHeight;
-
-        el.liveCropRegion.style.left = `${screenX}px`;
-        el.liveCropRegion.style.top = `${screenY}px`;
-        el.liveCropRegion.style.width = `${screenW}px`;
-        el.liveCropRegion.style.height = `${screenH}px`;
-    }
-
-    // ============================================
-    // REVIEW MODE
-    // ============================================
-
-    function enterReviewMode() {
-        if (state.frameBuffer.length < CONFIG.FPS) {
-            alert('Not enough footage yet. Wait a few seconds and try again.');
-            return;
-        }
-
-        stopCapturing();
-        state.mode = 'review';
-
-        const framesBack = Math.min(CONFIG.FPS * 15, state.frameBuffer.length - 1);
-        state.reviewIndex = state.frameBuffer.length - framesBack;
-        state.isPlaying = false;
-        state.playbackSpeed = 1;
-
-        // Reset loop state
-        state.loopEnabled = false;
-        el.loopBtn.classList.remove('active');
-        el.loopBtn.textContent = '🔄 Set Loop';
-        el.loopIndicator.classList.remove('visible');
-
-        el.liveVideo.style.display = 'none';
-        el.reviewCanvas.style.display = 'block';
-        el.liveControls.classList.add('hidden');
-        el.reviewControls.classList.add('active');
-        el.bufferBadge.style.display = 'none';
-        el.liveCropOverlay.classList.remove('visible');
-        el.appContainer.classList.add('review-active');
-
-        el.modeBadge.textContent = '⏸ REVIEW';
-        el.modeBadge.classList.remove('recording', 'crop-mode');
-        el.modeBadge.classList.add('review');
-
-        el.modeLabel.textContent = '⏸ REVIEW MODE';
-        el.modeLabel.classList.remove('live', 'crop');
-        el.modeLabel.classList.add('review');
-
-        el.totalTime.textContent = formatTime(state.frameBuffer.length / CONFIG.FPS);
-        el.scrubberInput.max = state.frameBuffer.length - 1;
-        el.scrubberInput.value = state.reviewIndex;
-
-        renderCurrentFrame();
-        updatePlayButton();
-        updateScrubber();
-        updateSpeedButtons();
-    }
-
-    function exitReviewMode() {
-        stopPlayback();
-        state.mode = 'live';
-
-        el.reviewCanvas.style.display = 'none';
-        el.liveVideo.style.display = 'block';
-        el.reviewControls.classList.remove('active');
-        el.liveControls.classList.remove('hidden');
-        el.bufferBadge.style.display = 'block';
-        el.appContainer.classList.remove('review-active');
-
-        // Show live crop indicator if crop is enabled
-        updateLiveCropOverlay();
-
-        el.modeBadge.textContent = '● LIVE';
-        el.modeBadge.classList.add('recording');
-        el.modeBadge.classList.remove('review', 'crop-mode');
-
-        el.modeLabel.textContent = '● RECORDING';
-        el.modeLabel.classList.add('live');
-        el.modeLabel.classList.remove('review', 'crop');
-
-        startCapturing();
-    }
-
-    function renderCurrentFrame() {
-        state.reviewIndex = Math.max(0, Math.min(state.frameBuffer.length - 1, state.reviewIndex));
-
-        const frame = state.frameBuffer[state.reviewIndex];
-        if (!frame) return;
-
-        const ctx = el.reviewCanvas.getContext('2d');
-        ctx.putImageData(frame, 0, 0);
-
-        const currentSec = state.reviewIndex / CONFIG.FPS;
-        el.currentTime.textContent = formatTime(currentSec);
-        el.timeBadge.textContent = formatTime(currentSec);
-
-        updateScrubber();
-    }
-
-    // ============================================
-    // PLAYBACK CONTROLS
-    // ============================================
-
-    function togglePlay() {
-        if (state.isPlaying) {
-            stopPlayback();
-        } else {
-            startPlayback();
-        }
-    }
-
-    function startPlayback() {
-        if (state.loopEnabled) {
-            // If looping, start from loop start if outside loop range
-            if (state.reviewIndex < state.loopStartIndex || state.reviewIndex >= state.loopEndIndex) {
-                state.reviewIndex = state.loopStartIndex;
-            }
-        } else if (state.reviewIndex >= state.frameBuffer.length - 1) {
-            state.reviewIndex = 0;
-        }
-
-        state.isPlaying = true;
-        updatePlayButton();
-
-        const intervalMs = (1000 / CONFIG.FPS) / state.playbackSpeed;
-
-        state.playbackInterval = setInterval(() => {
-            state.reviewIndex++;
-
-            if (state.loopEnabled) {
-                // Loop back to start when reaching end of loop
-                if (state.reviewIndex >= state.loopEndIndex) {
-                    state.reviewIndex = state.loopStartIndex;
-                }
-                renderCurrentFrame();
-            } else {
-                if (state.reviewIndex >= state.frameBuffer.length) {
-                    stopPlayback();
-                    state.reviewIndex = state.frameBuffer.length - 1;
-                } else {
-                    renderCurrentFrame();
-                }
-            }
-        }, intervalMs);
-    }
-
-    function toggleLoop() {
-        if (state.loopEnabled) {
-            // Disable loop
+            stopCapturing();
+            state.mode = 'review';
+            
+            const framesBack = Math.min(CONFIG.FPS * 15, state.frameBuffer.length - 1);
+            state.reviewIndex = state.frameBuffer.length - framesBack;
+            state.isPlaying = false;
+            state.playbackSpeed = 1;
+            
+            // Reset loop state
             state.loopEnabled = false;
             el.loopBtn.classList.remove('active');
             el.loopBtn.textContent = '🔄 Set Loop';
             el.loopIndicator.classList.remove('visible');
-        } else {
-            // Enable loop - set ±0.5 second around current position
-            const loopFrames = Math.round(CONFIG.FPS * 0.5); // 0.5 second worth of frames
-            state.loopStartIndex = Math.max(0, state.reviewIndex - loopFrames);
-            state.loopEndIndex = Math.min(state.frameBuffer.length, state.reviewIndex + loopFrames);
-            state.loopEnabled = true;
 
-            el.loopBtn.classList.add('active');
-            el.loopBtn.textContent = '🔄 Clear Loop';
+            el.liveVideo.style.display = 'none';
+            el.reviewCanvas.style.display = 'block';
+            el.liveControls.classList.add('hidden');
+            el.reviewControls.classList.add('active');
+            el.bufferBadge.style.display = 'none';
+            el.liveCropOverlay.classList.remove('visible');
+            el.appContainer.classList.add('review-active');
 
-            updateLoopIndicator();
+            el.modeBadge.textContent = '⏸ REVIEW';
+            el.modeBadge.classList.remove('recording', 'crop-mode');
+            el.modeBadge.classList.add('review');
 
-            // If currently playing, restart to apply loop
-            if (state.isPlaying) {
-                stopPlayback();
-                state.reviewIndex = state.loopStartIndex;
-                renderCurrentFrame();
-                startPlayback();
-            }
+            el.modeLabel.textContent = '⏸ REVIEW MODE';
+            el.modeLabel.classList.remove('live', 'crop');
+            el.modeLabel.classList.add('review');
+
+            el.totalTime.textContent = formatTime(state.frameBuffer.length / CONFIG.FPS);
+            el.scrubberInput.max = state.frameBuffer.length - 1;
+            el.scrubberInput.value = state.reviewIndex;
+
+            renderCurrentFrame();
+            updatePlayButton();
+            updateScrubber();
+            updateSpeedButtons();
         }
-    }
 
-    function updateLoopIndicator() {
-        if (!state.loopEnabled) {
-            el.loopIndicator.classList.remove('visible');
-            return;
-        }
-
-        el.loopIndicator.classList.add('visible');
-
-        const totalFrames = state.frameBuffer.length - 1;
-        const startPercent = (state.loopStartIndex / totalFrames) * 100;
-        const endPercent = (state.loopEndIndex / totalFrames) * 100;
-        const widthPercent = endPercent - startPercent;
-
-        // Account for padding on the scrubber container
-        el.loopIndicator.style.left = `calc(4px + ${startPercent}% * (100% - 8px) / 100)`;
-        el.loopIndicator.style.width = `calc(${widthPercent}% * (100% - 8px) / 100)`;
-    }
-
-    function stopPlayback() {
-        state.isPlaying = false;
-        if (state.playbackInterval) {
-            clearInterval(state.playbackInterval);
-            state.playbackInterval = null;
-        }
-        updatePlayButton();
-    }
-
-    function seek(seconds) {
-        stopPlayback();
-        state.reviewIndex += Math.round(seconds * CONFIG.FPS);
-        state.reviewIndex = Math.max(0, Math.min(state.frameBuffer.length - 1, state.reviewIndex));
-        renderCurrentFrame();
-    }
-
-    function stepFrame(direction) {
-        stopPlayback();
-        state.reviewIndex += direction;
-        state.reviewIndex = Math.max(0, Math.min(state.frameBuffer.length - 1, state.reviewIndex));
-        renderCurrentFrame();
-    }
-
-    function setSpeed(speed) {
-        const wasPlaying = state.isPlaying;
-        stopPlayback();
-        state.playbackSpeed = speed;
-        updateSpeedButtons();
-        if (wasPlaying) startPlayback();
-    }
-
-    function seekToScrubberPosition() {
-        stopPlayback();
-        state.reviewIndex = parseInt(el.scrubberInput.value);
-        renderCurrentFrame();
-    }
-
-    // ============================================
-    // FULLSCREEN
-    // ============================================
-
-    function toggleFullscreen() {
-        if (state.isFullscreen) {
-            exitFullscreen();
-        } else {
-            enterFullscreen();
-        }
-    }
-
-    function enterFullscreen() {
-        state.isFullscreen = true;
-        el.appContainer.classList.add('fullscreen-mode');
-
-        const elem = el.appContainer;
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen().catch(() => {});
-        } else if (elem.webkitRequestFullscreen) {
-            elem.webkitRequestFullscreen();
-        }
-    }
-
-    function exitFullscreen() {
-        state.isFullscreen = false;
-        el.appContainer.classList.remove('fullscreen-mode');
-
-        if (document.exitFullscreen) {
-            document.exitFullscreen().catch(() => {});
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        }
-    }
-
-    // ============================================
-    // UI UPDATES
-    // ============================================
-
-    function updatePlayButton() {
-        if (state.isPlaying) {
-            el.playBtn.textContent = '⏸';
-            el.playBtn.classList.remove('paused');
-        } else {
-            el.playBtn.textContent = '▶️';
-            el.playBtn.classList.add('paused');
-        }
-    }
-
-    function updateScrubber() {
-        const percent = (state.reviewIndex / Math.max(1, state.frameBuffer.length - 1)) * 100;
-        el.scrubberInput.value = state.reviewIndex;
-        el.scrubberInput.style.setProperty('--progress', `${percent}%`);
-    }
-
-    function updateSpeedButtons() {
-        document.querySelectorAll('.review-speed-btn').forEach(btn => {
-            btn.classList.toggle('active', parseFloat(btn.dataset.speed) === state.playbackSpeed);
-        });
-    }
-
-    function formatTime(seconds) {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        const tenths = Math.floor((seconds % 1) * 10);
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${tenths}`;
-    }
-
-    function showStatus(text) {
-        el.statusText.textContent = text;
-        el.statusOverlay.classList.remove('hidden');
-    }
-
-    function hideStatus() {
-        el.statusOverlay.classList.add('hidden');
-    }
-
-    function showError(title, message) {
-        el.statusOverlay.innerHTML = `<div class="error-box"><h3>${title}</h3><p>${message}</p></div>`;
-        el.statusOverlay.classList.remove('hidden');
-    }
-
-    // ============================================
-    // EVENT LISTENERS
-    // ============================================
-
-    function setupListeners() {
-        el.cameraSelect.addEventListener('change', async (e) => {
-            if (e.target.value) {
-                showStatus('Switching camera...');
-                try {
-                    await startCamera(e.target.value);
-                    hideStatus();
-                } catch (err) {
-                    showError('Camera Error', 'Could not switch camera.');
-                }
-            }
-        });
-
-        // Crop toggle
-        el.cropToggleBtn.addEventListener('click', () => {
-            if (state.mode === 'crop') {
-                exitCropMode(false);
-            } else if (state.mode === 'live') {
-                enterCropMode();
-            }
-        });
-
-        el.confirmCropBtn.addEventListener('click', () => {
-            exitCropMode(true);
-        });
-
-        el.reviewBtn.addEventListener('click', enterReviewMode);
-        el.backBtn.addEventListener('click', exitReviewMode);
-
-        el.playBtn.addEventListener('click', togglePlay);
-        el.rewindBtn.addEventListener('click', () => seek(-15));
-        el.forwardBtn.addEventListener('click', () => seek(15));
-
-        el.framePrev.addEventListener('click', () => stepFrame(-1));
-        el.frameNext.addEventListener('click', () => stepFrame(1));
-        el.loopBtn.addEventListener('click', toggleLoop);
-
-        document.querySelectorAll('.review-speed-btn').forEach(btn => {
-            btn.addEventListener('click', () => setSpeed(parseFloat(btn.dataset.speed)));
-        });
-
-        el.scrubberInput.addEventListener('input', seekToScrubberPosition);
-
-        // Fullscreen
-        el.fullscreenBtn.addEventListener('click', toggleFullscreen);
-        el.exitFullscreenBtn.addEventListener('click', exitFullscreen);
-
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement && state.isFullscreen) exitFullscreen();
-        });
-
-        document.addEventListener('webkitfullscreenchange', () => {
-            if (!document.webkitFullscreenElement && state.isFullscreen) exitFullscreen();
-        });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (state.mode === 'crop') return;
-            if (state.mode !== 'review') return;
-
-            switch (e.key) {
-                case ' ': e.preventDefault(); togglePlay(); break;
-                case 'ArrowLeft': e.preventDefault(); seek(-5); break;
-                case 'ArrowRight': e.preventDefault(); seek(5); break;
-                case ',': stepFrame(-1); break;
-                case '.': stepFrame(1); break;
-                case 'f': toggleFullscreen(); break;
-                case 'Escape': if (state.isFullscreen) exitFullscreen(); break;
-            }
-        });
-    }
-
-    // ============================================
-    // HOME SCREEN NAVIGATION
-    // ============================================
-
-    function setupHomeScreen() {
-        // Start Line Monitor button
-        el.startLiveBtn.addEventListener('click', () => {
-            el.homeScreen.classList.add('hidden');
-            el.appContainer.classList.remove('hidden');
-            init();
-        });
-
-        // Help button and modal
-        el.helpBtn.addEventListener('click', () => {
-            el.helpModal.classList.remove('hidden');
-        });
-
-        el.closeHelpBtn.addEventListener('click', () => {
-            el.helpModal.classList.add('hidden');
-        });
-
-        el.helpModal.addEventListener('click', (e) => {
-            if (e.target === el.helpModal) {
-                el.helpModal.classList.add('hidden');
-            }
-        });
-
-        // Settings button and modal
-        el.settingsBtn.addEventListener('click', () => {
-            el.settingsModal.classList.remove('hidden');
-        });
-
-        el.closeSettingsBtn.addEventListener('click', () => {
-            el.settingsModal.classList.add('hidden');
-        });
-
-        el.settingsModal.addEventListener('click', (e) => {
-            if (e.target === el.settingsModal) {
-                el.settingsModal.classList.add('hidden');
-            }
-        });
-
-        // Back to home button
-        el.backToHomeBtn.addEventListener('click', () => {
-            // Stop camera and capturing
-            if (state.stream) {
-                state.stream.getTracks().forEach(t => t.stop());
-                state.stream = null;
-            }
-            stopCapturing();
+        function exitReviewMode() {
             stopPlayback();
-
-            // Reset state
             state.mode = 'live';
-            state.frameBuffer = [];
-            state.cropEnabled = false;
 
-            // Hide app, show home
-            el.appContainer.classList.add('hidden');
-            el.homeScreen.classList.remove('hidden');
-
-            // Reset UI
             el.reviewCanvas.style.display = 'none';
             el.liveVideo.style.display = 'block';
             el.reviewControls.classList.remove('active');
             el.liveControls.classList.remove('hidden');
-            el.appContainer.classList.remove('review-active', 'fullscreen-mode');
-            el.cropToggleBtn.classList.remove('active');
-            el.liveCropOverlay.classList.remove('visible');
-        });
-    }
+            el.bufferBadge.style.display = 'block';
+            el.appContainer.classList.remove('review-active');
 
-    // Start with home screen
-    setupHomeScreen();
-</script>
+            // Show live crop indicator if crop is enabled
+            updateLiveCropOverlay();
+
+            el.modeBadge.textContent = '● LIVE';
+            el.modeBadge.classList.add('recording');
+            el.modeBadge.classList.remove('review', 'crop-mode');
+
+            el.modeLabel.textContent = '● RECORDING';
+            el.modeLabel.classList.add('live');
+            el.modeLabel.classList.remove('review', 'crop');
+
+            startCapturing();
+        }
+
+        function renderCurrentFrame() {
+            state.reviewIndex = Math.max(0, Math.min(state.frameBuffer.length - 1, state.reviewIndex));
+
+            const frame = state.frameBuffer[state.reviewIndex];
+            if (!frame) return;
+
+            const ctx = el.reviewCanvas.getContext('2d');
+            ctx.putImageData(frame, 0, 0);
+
+            const currentSec = state.reviewIndex / CONFIG.FPS;
+            el.currentTime.textContent = formatTime(currentSec);
+            el.timeBadge.textContent = formatTime(currentSec);
+
+            updateScrubber();
+        }
+
+        // ============================================
+        // PLAYBACK CONTROLS
+        // ============================================
+
+        function togglePlay() {
+            if (state.isPlaying) {
+                stopPlayback();
+            } else {
+                startPlayback();
+            }
+        }
+
+        function startPlayback() {
+            if (state.loopEnabled) {
+                // If looping, start from loop start if outside loop range
+                if (state.reviewIndex < state.loopStartIndex || state.reviewIndex >= state.loopEndIndex) {
+                    state.reviewIndex = state.loopStartIndex;
+                }
+            } else if (state.reviewIndex >= state.frameBuffer.length - 1) {
+                state.reviewIndex = 0;
+            }
+
+            state.isPlaying = true;
+            updatePlayButton();
+
+            const intervalMs = (1000 / CONFIG.FPS) / state.playbackSpeed;
+
+            state.playbackInterval = setInterval(() => {
+                state.reviewIndex++;
+                
+                if (state.loopEnabled) {
+                    // Loop back to start when reaching end of loop
+                    if (state.reviewIndex >= state.loopEndIndex) {
+                        state.reviewIndex = state.loopStartIndex;
+                    }
+                    renderCurrentFrame();
+                } else {
+                    if (state.reviewIndex >= state.frameBuffer.length) {
+                        stopPlayback();
+                        state.reviewIndex = state.frameBuffer.length - 1;
+                    } else {
+                        renderCurrentFrame();
+                    }
+                }
+            }, intervalMs);
+        }
+
+        function toggleLoop() {
+            if (state.loopEnabled) {
+                // Disable loop
+                state.loopEnabled = false;
+                el.loopBtn.classList.remove('active');
+                el.loopBtn.textContent = '🔄 Set Loop';
+                el.loopIndicator.classList.remove('visible');
+            } else {
+                // Enable loop - set ±0.5 second around current position
+                const loopFrames = Math.round(CONFIG.FPS * 0.5); // 0.5 second worth of frames
+                state.loopStartIndex = Math.max(0, state.reviewIndex - loopFrames);
+                state.loopEndIndex = Math.min(state.frameBuffer.length, state.reviewIndex + loopFrames);
+                state.loopEnabled = true;
+                
+                el.loopBtn.classList.add('active');
+                el.loopBtn.textContent = '🔄 Clear Loop';
+                
+                updateLoopIndicator();
+                
+                // If currently playing, restart to apply loop
+                if (state.isPlaying) {
+                    stopPlayback();
+                    state.reviewIndex = state.loopStartIndex;
+                    renderCurrentFrame();
+                    startPlayback();
+                }
+            }
+        }
+
+        function updateLoopIndicator() {
+            if (!state.loopEnabled) {
+                el.loopIndicator.classList.remove('visible');
+                return;
+            }
+
+            el.loopIndicator.classList.add('visible');
+
+            const totalFrames = state.frameBuffer.length - 1;
+            const startPercent = (state.loopStartIndex / totalFrames) * 100;
+            const endPercent = (state.loopEndIndex / totalFrames) * 100;
+            const widthPercent = endPercent - startPercent;
+
+            // Account for padding on the scrubber container
+            el.loopIndicator.style.left = `calc(4px + ${startPercent}% * (100% - 8px) / 100)`;
+            el.loopIndicator.style.width = `calc(${widthPercent}% * (100% - 8px) / 100)`;
+        }
+
+        function stopPlayback() {
+            state.isPlaying = false;
+            if (state.playbackInterval) {
+                clearInterval(state.playbackInterval);
+                state.playbackInterval = null;
+            }
+            updatePlayButton();
+        }
+
+        function seek(seconds) {
+            stopPlayback();
+            state.reviewIndex += Math.round(seconds * CONFIG.FPS);
+            state.reviewIndex = Math.max(0, Math.min(state.frameBuffer.length - 1, state.reviewIndex));
+            renderCurrentFrame();
+        }
+
+        function stepFrame(direction) {
+            stopPlayback();
+            state.reviewIndex += direction;
+            state.reviewIndex = Math.max(0, Math.min(state.frameBuffer.length - 1, state.reviewIndex));
+            renderCurrentFrame();
+        }
+
+        function setSpeed(speed) {
+            const wasPlaying = state.isPlaying;
+            stopPlayback();
+            state.playbackSpeed = speed;
+            updateSpeedButtons();
+            if (wasPlaying) startPlayback();
+        }
+
+        function seekToScrubberPosition() {
+            stopPlayback();
+            state.reviewIndex = parseInt(el.scrubberInput.value);
+            renderCurrentFrame();
+        }
+
+        // ============================================
+        // FULLSCREEN
+        // ============================================
+
+        function toggleFullscreen() {
+            if (state.isFullscreen) {
+                exitFullscreen();
+            } else {
+                enterFullscreen();
+            }
+        }
+
+        function enterFullscreen() {
+            state.isFullscreen = true;
+            el.appContainer.classList.add('fullscreen-mode');
+
+            const elem = el.appContainer;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(() => {});
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            }
+        }
+
+        function exitFullscreen() {
+            state.isFullscreen = false;
+            el.appContainer.classList.remove('fullscreen-mode');
+
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+
+        // ============================================
+        // UI UPDATES
+        // ============================================
+
+        function updatePlayButton() {
+            if (state.isPlaying) {
+                el.playBtn.textContent = '⏸';
+                el.playBtn.classList.remove('paused');
+            } else {
+                el.playBtn.textContent = '▶️';
+                el.playBtn.classList.add('paused');
+            }
+        }
+
+        function updateScrubber() {
+            const percent = (state.reviewIndex / Math.max(1, state.frameBuffer.length - 1)) * 100;
+            el.scrubberInput.value = state.reviewIndex;
+            el.scrubberInput.style.setProperty('--progress', `${percent}%`);
+        }
+
+        function updateSpeedButtons() {
+            document.querySelectorAll('.review-speed-btn').forEach(btn => {
+                btn.classList.toggle('active', parseFloat(btn.dataset.speed) === state.playbackSpeed);
+            });
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            const tenths = Math.floor((seconds % 1) * 10);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${tenths}`;
+        }
+
+        function showStatus(text) {
+            el.statusText.textContent = text;
+            el.statusOverlay.classList.remove('hidden');
+        }
+
+        function hideStatus() {
+            el.statusOverlay.classList.add('hidden');
+        }
+
+        function showError(title, message) {
+            el.statusOverlay.innerHTML = `<div class="error-box"><h3>${title}</h3><p>${message}</p></div>`;
+            el.statusOverlay.classList.remove('hidden');
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+
+        function setupListeners() {
+            el.cameraSelect.addEventListener('change', async (e) => {
+                if (e.target.value) {
+                    showStatus('Switching camera...');
+                    try {
+                        await startCamera(e.target.value);
+                        hideStatus();
+                    } catch (err) {
+                        showError('Camera Error', 'Could not switch camera.');
+                    }
+                }
+            });
+
+            // Crop toggle
+            el.cropToggleBtn.addEventListener('click', () => {
+                if (state.mode === 'crop') {
+                    exitCropMode(false);
+                } else if (state.mode === 'live') {
+                    enterCropMode();
+                }
+            });
+
+            el.confirmCropBtn.addEventListener('click', () => {
+                exitCropMode(true);
+            });
+
+            el.reviewBtn.addEventListener('click', enterReviewMode);
+            el.backBtn.addEventListener('click', exitReviewMode);
+
+            el.playBtn.addEventListener('click', togglePlay);
+            el.rewindBtn.addEventListener('click', () => seek(-15));
+            el.forwardBtn.addEventListener('click', () => seek(15));
+
+            el.framePrev.addEventListener('click', () => stepFrame(-1));
+            el.frameNext.addEventListener('click', () => stepFrame(1));
+            el.loopBtn.addEventListener('click', toggleLoop);
+
+            document.querySelectorAll('.review-speed-btn').forEach(btn => {
+                btn.addEventListener('click', () => setSpeed(parseFloat(btn.dataset.speed)));
+            });
+
+            el.scrubberInput.addEventListener('input', seekToScrubberPosition);
+
+            // Fullscreen
+            el.fullscreenBtn.addEventListener('click', toggleFullscreen);
+            el.exitFullscreenBtn.addEventListener('click', exitFullscreen);
+
+            document.addEventListener('fullscreenchange', () => {
+                if (!document.fullscreenElement && state.isFullscreen) exitFullscreen();
+            });
+
+            document.addEventListener('webkitfullscreenchange', () => {
+                if (!document.webkitFullscreenElement && state.isFullscreen) exitFullscreen();
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (state.mode === 'crop') return;
+                if (state.mode !== 'review') return;
+
+                switch (e.key) {
+                    case ' ': e.preventDefault(); togglePlay(); break;
+                    case 'ArrowLeft': e.preventDefault(); seek(-5); break;
+                    case 'ArrowRight': e.preventDefault(); seek(5); break;
+                    case ',': stepFrame(-1); break;
+                    case '.': stepFrame(1); break;
+                    case 'f': toggleFullscreen(); break;
+                    case 'Escape': if (state.isFullscreen) exitFullscreen(); break;
+                }
+            });
+        }
+
+        // ============================================
+        // HOME SCREEN NAVIGATION
+        // ============================================
+
+        function setupHomeScreen() {
+            // Start Line Monitor button
+            el.startLiveBtn.addEventListener('click', () => {
+                el.homeScreen.classList.add('hidden');
+                el.appContainer.classList.remove('hidden');
+                init();
+            });
+
+            // Help button and modal
+            el.helpBtn.addEventListener('click', () => {
+                el.helpModal.classList.remove('hidden');
+            });
+
+            el.closeHelpBtn.addEventListener('click', () => {
+                el.helpModal.classList.add('hidden');
+            });
+
+            el.helpModal.addEventListener('click', (e) => {
+                if (e.target === el.helpModal) {
+                    el.helpModal.classList.add('hidden');
+                }
+            });
+
+            // Settings button and modal
+            el.settingsBtn.addEventListener('click', () => {
+                updateFpsButtons(); // Update active state when opening
+                el.settingsModal.classList.remove('hidden');
+            });
+
+            el.closeSettingsBtn.addEventListener('click', () => {
+                el.settingsModal.classList.add('hidden');
+            });
+
+            el.settingsModal.addEventListener('click', (e) => {
+                if (e.target === el.settingsModal) {
+                    el.settingsModal.classList.add('hidden');
+                }
+            });
+
+            // FPS selector
+            const fpsDescriptions = {
+                24: '24 FPS - Longest buffer, good for most cases',
+                30: '30 FPS - Balanced buffer and smoothness',
+                60: '60 FPS - Smoothest slow-motion, shorter buffer'
+            };
+
+            document.querySelectorAll('.fps-option').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const newFps = parseInt(btn.dataset.fps);
+                    CONFIG.FPS = newFps;
+                    
+                    // Update UI
+                    document.querySelectorAll('.fps-option').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById('fpsDescription').textContent = fpsDescriptions[newFps];
+                    document.getElementById('currentFpsDisplay').textContent = newFps;
+                    
+                    // Recalculate buffer capacity
+                    recalculateBufferCapacity();
+                });
+            });
+
+            function updateFpsButtons() {
+                document.querySelectorAll('.fps-option').forEach(btn => {
+                    btn.classList.toggle('active', parseInt(btn.dataset.fps) === CONFIG.FPS);
+                });
+                document.getElementById('fpsDescription').textContent = fpsDescriptions[CONFIG.FPS];
+                document.getElementById('currentFpsDisplay').textContent = CONFIG.FPS;
+            }
+
+            // Back to home button
+            el.backToHomeBtn.addEventListener('click', () => {
+                // Stop camera and capturing
+                if (state.stream) {
+                    state.stream.getTracks().forEach(t => t.stop());
+                    state.stream = null;
+                }
+                stopCapturing();
+                stopPlayback();
+
+                // Reset state
+                state.mode = 'live';
+                state.frameBuffer = [];
+                state.cropEnabled = false;
+
+                // Hide app, show home
+                el.appContainer.classList.add('hidden');
+                el.homeScreen.classList.remove('hidden');
+
+                // Reset UI
+                el.reviewCanvas.style.display = 'none';
+                el.liveVideo.style.display = 'block';
+                el.reviewControls.classList.remove('active');
+                el.liveControls.classList.remove('hidden');
+                el.appContainer.classList.remove('review-active', 'fullscreen-mode');
+                el.cropToggleBtn.classList.remove('active');
+                el.liveCropOverlay.classList.remove('visible');
+            });
+        }
+
+        // Start with home screen
+        setupHomeScreen();
+    </script>
 </body>
 </html>
